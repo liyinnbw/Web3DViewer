@@ -2,6 +2,7 @@
 
 var container,stats;
 var camera, scene, renderer;
+var geometry;
 
 init();
 animate();
@@ -41,8 +42,8 @@ function init(){
     var light = new THREE.DirectionalLight( 0xdfebff, 1.75 );
     light.position.set( 50, 200, 100 );
     light.position.multiplyScalar( 1.3 );
-    light.castShadow = false;
-    //light.shadowCameraVisible = true;
+    light.castShadow = true;
+    /*//light.shadowCameraVisible = true;
     light.shadowMapWidth = 1024;
     light.shadowMapHeight = 1024;
     var d = 300;
@@ -51,7 +52,7 @@ function init(){
     light.shadowCameraTop = d;
     light.shadowCameraBottom = -d;
     light.shadowCameraFar = 1000;
-    light.shadowDarkness = 0.5;
+    light.shadowDarkness = 0.5;*/
     
     //scene
     scene = new THREE.Scene();
@@ -59,7 +60,7 @@ function init(){
     scene.add( light );
     
     //material
-    var clothTexture = THREE.ImageUtils.loadTexture( 'pic.jpg' );
+    var clothTexture = THREE.ImageUtils.loadTexture( 'texture/pic.jpg' );
     var material = new THREE.MeshPhongMaterial( 
         { 
             alphaTest: 0.5, 
@@ -91,20 +92,24 @@ function init(){
     };
 
     var loader = new THREE.OBJLoader( manager );
-    loader.load( 'bun_zipper.obj', function ( object ) {
+    loader.load( 'obj/tree.obj', function ( object ) {
+    //loader.load( 'obj/bun_zipper.obj', function ( object ) {
+    //loader.load( 'obj/female02.obj', function ( object ) {
+    //loader.load( 'obj/male02.obj', function ( object ) {
+    //loader.load( 'obj/WaltHead.obj', function ( object ) {
         object.traverse( function (child) {  
             if ( child instanceof THREE.Mesh ) {  
                 child.material = material;  
-                //child.material.needsUpdate = true;  
+                child.material.needsUpdate = true;  
             }  
         });
-        
-        scene.add( object );
+        geometry = object;
+        fitWindow(object);
+        scene.add(object);
     }, onProgress, onError );
     
-    //var geometry = new THREE.BoxGeometry( 0.1, 0.1, 0.1 );  
-    //var cube = new THREE.Mesh( geometry, material ); 
-    //cube.material.needsUpdate = true;
+
+    //var cube = new THREE.Mesh( new THREE.BoxGeometry( 0.1, 0.1, 0.1 ), material ); 
     //scene.add( cube ); 
     
     
@@ -117,4 +122,23 @@ function animate() {
     requestAnimationFrame( animate );
     render();
     stats.update();
+    //geometry.rotation.x += 0.01; 
+    //geometry.rotation.y += 0.01;
+}
+function fitWindow(object){
+    var box = new THREE.Box3().setFromObject( object );
+    //var box = geometry.computeBoundingBox();
+    
+    var xLen = box.max.x-box.min.x;
+    var yLen = box.max.y-box.min.y;
+    var zLen = box.max.z-box.min.z;
+    var zoomOut = Math.max(xLen,yLen,zLen);
+
+    var sum = box.min.add(box.max);
+    object.position.x -= sum.x/2.0;
+    object.position.y -= sum.y/2.0;
+    object.position.z -= sum.z/2.0;
+    camera.position.z = zoomOut;
+    
+    
 }
