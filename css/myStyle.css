@@ -1,0 +1,15 @@
+.img-thumbnail {
+    margin-top:20px; 
+    //max-width: 100%;
+    cursor: pointer;
+}
+
+
+.artshow {
+    margin-top:20px; 
+    max-width: 100%;
+}
+
+textarea{
+    resize:vertical
+}

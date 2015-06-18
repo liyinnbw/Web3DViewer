@@ -3,38 +3,43 @@
 var container,stats;
 var camera, scene, renderer;
 var geometry;
-
+var RATIO = 16.0/9.0;
+var OFFSET = 300;
 init();
 animate();
 
 function onWindowResize() {
 
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = RATIO;
     camera.updateProjectionMatrix();
-
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    var width = window.innerWidth-OFFSET;//document.getElementById("viewer").style.width;
+    var height= width/RATIO;//document.getElementById("viewer").style.height;
+     renderer.setSize( width, height );
 
 }
 
 function init(){
     
     //renderer
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
+    container = document.getElementById("viewer");
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xf0f0f0 ); //background
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight ); 
+    var width = window.innerWidth-OFFSET;//document.getElementById("viewer").style.width;
+    var height= width/RATIO;//document.getElementById("viewer").style.height;
+    console.log('hello');
+    console.log('width=',width,'height = ',height);
+    renderer.setSize( width, height ); 
     container.appendChild( renderer.domElement );
     
     //stats
     stats = new Stats();
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.top = '0px';
+    //stats.domElement.style.position = 'absolute';
+    //stats.domElement.style.top = '0px';
     container.appendChild( stats.domElement );
     
     //camera
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.001, 1000 ); 
+    camera = new THREE.PerspectiveCamera( 75, width / height, 0.001, 1000 ); 
     camera.position.z = 1;
     
     //lighting
@@ -92,11 +97,11 @@ function init(){
     };
 
     var loader = new THREE.OBJLoader( manager );
-    loader.load( 'obj/tree.obj', function ( object ) {
+    //loader.load( 'obj/tree.obj', function ( object ) {
     //loader.load( 'obj/bun_zipper.obj', function ( object ) {
     //loader.load( 'obj/female02.obj', function ( object ) {
     //loader.load( 'obj/male02.obj', function ( object ) {
-    //loader.load( 'obj/WaltHead.obj', function ( object ) {
+    loader.load( 'obj/WaltHead.obj', function ( object ) {
         object.traverse( function (child) {  
             if ( child instanceof THREE.Mesh ) {  
                 child.material = material;  
