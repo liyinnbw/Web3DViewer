@@ -4,7 +4,7 @@ var container,stats;
 var camera, scene, renderer;
 var geometry;
 var RATIO = 16.0/9.0;
-var OFFSET = 300;
+var OFFSET = 40;
 init();
 animate();
 
@@ -12,9 +12,9 @@ function onWindowResize() {
 
     camera.aspect = RATIO;
     camera.updateProjectionMatrix();
-    var width = window.innerWidth-OFFSET;//document.getElementById("viewer").style.width;
-    var height= width/RATIO;//document.getElementById("viewer").style.height;
-     renderer.setSize( width, height );
+    var width = container.clientWidth-OFFSET;
+    var height= width/RATIO;
+    renderer.setSize( width, height );
 
 }
 
@@ -25,10 +25,8 @@ function init(){
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xf0f0f0 ); //background
     renderer.setPixelRatio( window.devicePixelRatio );
-    var width = window.innerWidth-OFFSET;//document.getElementById("viewer").style.width;
-    var height= width/RATIO;//document.getElementById("viewer").style.height;
-    console.log('hello');
-    console.log('width=',width,'height = ',height);
+    var width = container.clientWidth-OFFSET;
+    var height= width/RATIO;
     renderer.setSize( width, height ); 
     container.appendChild( renderer.domElement );
     
@@ -63,6 +61,21 @@ function init(){
     scene = new THREE.Scene();
     scene.add( ambient );
     scene.add( light );
+    
+    load('WaltHead.obj');
+    
+    
+
+    //var cube = new THREE.Mesh( new THREE.BoxGeometry( 0.1, 0.1, 0.1 ), material ); 
+    //scene.add( cube ); 
+    
+    
+    
+    window.addEventListener( 'resize', onWindowResize, false );
+    controls = new THREE.OrbitControls( camera );
+
+}
+function load(filename){
     
     //material
     var clothTexture = THREE.ImageUtils.loadTexture( 'texture/pic.jpg' );
@@ -101,7 +114,8 @@ function init(){
     //loader.load( 'obj/bun_zipper.obj', function ( object ) {
     //loader.load( 'obj/female02.obj', function ( object ) {
     //loader.load( 'obj/male02.obj', function ( object ) {
-    loader.load( 'obj/WaltHead.obj', function ( object ) {
+    //loader.load( 'obj/WaltHead.obj', function ( object ) {
+    loader.load( 'server/php/files/'.concat(filename), function ( object ) {
         object.traverse( function (child) {  
             if ( child instanceof THREE.Mesh ) {  
                 child.material = material;  
@@ -112,16 +126,7 @@ function init(){
         fitWindow(object);
         scene.add(object);
     }, onProgress, onError );
-    
-
-    //var cube = new THREE.Mesh( new THREE.BoxGeometry( 0.1, 0.1, 0.1 ), material ); 
-    //scene.add( cube ); 
-    
-    
-    
-    window.addEventListener( 'resize', onWindowResize, false );
-    controls = new THREE.OrbitControls( camera );
-
+    render();
 }
 function animate() {
     requestAnimationFrame( animate );
