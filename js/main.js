@@ -61,10 +61,6 @@ function init(){
     scene = new THREE.Scene();
     scene.add( ambient );
     scene.add( light );
-    
-    load('WaltHead.obj');
-    
-    
 
     //var cube = new THREE.Mesh( new THREE.BoxGeometry( 0.1, 0.1, 0.1 ), material ); 
     //scene.add( cube ); 
@@ -122,9 +118,10 @@ function load(filename){
                 child.material.needsUpdate = true;  
             }  
         });
+        scene.remove(geometry); //remove previous geometry
         geometry = object;
-        fitWindow(object);
-        scene.add(object);
+        fitWindow(geometry);
+        scene.add(geometry);
     }, onProgress, onError );
     render();
 }
