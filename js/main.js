@@ -1,5 +1,5 @@
 /* jshint jquery:true, devel:true */
-
+var spinner;
 var container,stats;
 var camera, scene, renderer;
 var geometry;
@@ -71,8 +71,24 @@ function init(){
     controls = new THREE.OrbitControls( camera );
 
 }
+function showSpinner(){
+    var width = container.clientWidth-OFFSET;
+    var height= width/RATIO;
+    var spinnerWidth = 30;
+    var top = (height/2-spinnerWidth);
+    var marginLeft = -spinnerWidth;
+    spinner = document.createElement( 'div' );
+    spinner.className = 'spinner';
+    spinner.setAttribute('style','position:absolute; top:'+top+'px; left: 50%; z-index:1; margin-left:'+marginLeft+'px;');
+    container.appendChild(spinner);
+}
+function hideSpinner(){
+    container.removeChild(spinner);
+}
 function load(filename){
-    
+    scene.remove(geometry); //remove previous geometry
+    showSpinner();
+    console.log('loading '.concat(filename));
     //material
     var clothTexture = THREE.ImageUtils.loadTexture( 'texture/pic.jpg' );
     var material = new THREE.MeshPhongMaterial( 
@@ -106,24 +122,19 @@ function load(filename){
     };
 
     var loader = new THREE.OBJLoader( manager );
-    //loader.load( 'obj/tree.obj', function ( object ) {
-    //loader.load( 'obj/bun_zipper.obj', function ( object ) {
-    //loader.load( 'obj/female02.obj', function ( object ) {
-    //loader.load( 'obj/male02.obj', function ( object ) {
-    //loader.load( 'obj/WaltHead.obj', function ( object ) {
-    loader.load( 'server/php/files/'.concat(filename), function ( object ) {
+    loader.load( 'thirdparty/uploader/server/php/files/'.concat(filename), function ( object ) {
         object.traverse( function (child) {  
             if ( child instanceof THREE.Mesh ) {  
                 child.material = material;  
                 child.material.needsUpdate = true;  
             }  
         });
-        scene.remove(geometry); //remove previous geometry
         geometry = object;
         fitWindow(geometry);
         scene.add(geometry);
+        hideSpinner();
     }, onProgress, onError );
-    render();
+    
 }
 function animate() {
     requestAnimationFrame( animate );

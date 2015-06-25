@@ -2,7 +2,9 @@
     <head>
         <title>3D Viewer</title> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="thirdparty/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="css/spinner.css" rel="stylesheet">
+        
     </head>
     <body>
         
@@ -18,7 +20,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Chat</a>
+                    <a class="navbar-brand" href="#">3D Web Viewer</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <!-- Nav bar content -->
@@ -38,40 +40,45 @@
             </nav>
         </div>
         
-        <div id="viewer" class="container well"></div>
+        <div id="viewer" class="container well">
+        </div>
 
         <div class="container well" id="loginForm">
             <form role="form" enctype="multipart/form-data" name="form1" id="form1" action="php/upload.php" method="post"> 
                 <div class="form-group">
-                    <input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>
+                    <input id="fileupload" type="file" name="files[]" data-url="thirdparty/uploader/server/php/" multiple>
                 </div>
                 <div class="progress">
                     <div id="progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                         <!-- span class="sr-only">60% Complete</span -->
                     </div>
                 </div>
-                
+                <!--
                 <button class="btn btn-primary" name="" type="submit" value="submit" id="submitBtn"  onclick="load(bun_zipper.obj);">Submit</button>
+                -->
             </form>
         </div>
         
 
    
         <!-- JavaScript placed at the end of the document so the pages load faster -->
-        <script src="js/jquery-1.10.2.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery-1.11.0.js"></script>
-        <script src="js/build/three.min.js"></script> 
-        <script src="js/libs/stats.min.js"></script>
-        <script src="js/controls/OrbitControls.js"></script>
-        <script src="js/render.js"></script> 
-        <script src="js/loaders/OBJLoader.js"></script>
-        <script src="js/loaders/PLYLoader.js"></script>
-        <script src="js/main.js"></script> 
-        <script src="js/fileuploader/js/vendor/jquery.ui.widget.js"></script>
-        <script src="js/fileuploader/js/jquery.iframe-transport.js"></script>
-        <script src="js/fileuploader/js/jquery.fileupload.js"></script>
-        <script src="js/upload.js"></script>
+        <script src="thirdparty/jquery/jquery-1.10.2.min.js"></script>
+        <script src="thirdparty/jquery/jquery-1.11.0.js"></script>
         
+        <script src="thirdparty/bootstrap/js/bootstrap.min.js"></script>
+        
+        <script src="thirdparty/threejs/build/three.min.js"></script> 
+        <script src="thirdparty/threejs/libs/stats.min.js"></script>
+        <script src="thirdparty/threejs/controls/OrbitControls.js"></script>
+        <script src="thirdparty/threejs/loaders/OBJLoader.js"></script>
+        
+        <script src="thirdparty/uploader/js/vendor/jquery.ui.widget.js"></script>
+        <script src="thirdparty/uploader/js/jquery.iframe-transport.js"></script>
+        <script src="thirdparty/uploader/js/jquery.fileupload.js"></script>
+        
+        <script src="js/render.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/upload.js"></script>
+
     </body>
 </html>
