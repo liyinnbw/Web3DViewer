@@ -3,7 +3,7 @@
 ![Demo Gif](demo.gif)
 
 ## Description:
-A 3D model viewer on the web
+A 3D model viewer on the web that allows user to load an OBJ file from public URL and view.
 
 ## Dependency:
 1. webpack boilderplate from https://github.com/taniarascia/webpack-boilerplate
